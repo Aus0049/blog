@@ -147,3 +147,5 @@ class Man extends Human {
 ES6里面直接使用关键`extends`实现继承，并且子类使用super关键字获取父类的构造函数或实例方法。
 在ES6中，`constructor`方法对应ES5中的构造函数，`say`方法则是原型上的方法。
 实际上ES6中的继承及用了原型链继承，也用到了构造函数。
+
+补充：[ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/class-extends)
