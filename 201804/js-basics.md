@@ -1,8 +1,8 @@
 # 一些面试过程中遇到过的基础题目
-1. 继承 (AL)
-2. 深拷贝（JD）
-3. 函数与变量提升（AL）
-4. 闭包的理解（AL）
+1. 继承
+2. 深拷贝
+3. 函数与变量提升
+4. 闭包的理解
 
 ## 1.继承
 JS继承的概念：子类获取到父类所有的属性与方法，并且子类可以扩展和增强。
@@ -402,4 +402,53 @@ var f2 = function() {}
 
 参考：[JavaScript系列文章：变量提升和函数提升](http://www.cnblogs.com/liuhe688/p/5891273.html)
 
+## 4.闭包
+前提条件:
+1. 函数外的变量可以被函数内部访问到；
+2. 函数内部的变量外部无法访问到；
+3. 没有被引用的变量，会被垃圾回收机制回收；
+使用闭包，`function` return `function`;
+这样实现函数外部可以访问函数内部的方法。
 
+```javascript
+var scope = "global scope";
+function checkscope(){
+    var scope = "local scope";
+    function f(){
+        return scope;
+    }
+    return f;
+}
+
+var foo = checkscope();
+foo();
+```
+练习：
+```javascript
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  data[i] = function () {
+    console.log(i);
+  };
+}
+
+data[0](); // 3
+data[1](); // 3
+data[2](); // 3
+```
+```javascript
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  data[i] = (function (i) {
+        return function(){
+            console.log(i);
+        }
+  })(i);
+}
+
+data[0](); // 0
+data[1](); // 1
+data[2](); // 2
+```
