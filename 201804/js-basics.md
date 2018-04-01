@@ -149,3 +149,123 @@ ES6里面直接使用关键`extends`实现继承，并且子类使用super关键
 实际上ES6中的继承及用了原型链继承，也用到了构造函数。
 
 补充：[ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/class-extends)
+
+## 2.深拷贝
+在JS中，我们拷贝对象通常是使用`a = b`这种方式，对于简单数据结构这种方式很简便有效；
+但是对于复杂数据结构(`object`, `array`, `function`等)这种方式拷贝的是内存地址的引用，改变b，a也会随着改变。
+这也引出了深拷贝与浅拷贝的问题：
+1. 浅拷贝，只拷贝对象的一级属性，深层次的属性不予考虑；
+2. 深拷贝，递归拷贝对象的所有属性，修改拷贝出来的对象对原对象不产生影响。
+
+```javascript
+var a = {
+    a: 'string',
+    b: 1,
+    c: false,
+    d: undefined,
+    e: null,
+    f: function () {console.log(11111);},
+    g: ['a', 1, null, undefined, {aa: 'asd'}],
+    h: {
+        aa: 'asd',
+        bb: {
+            bbb: 'asddd',
+            ccc: {
+                cccc: 'ccccc'
+            }
+        }
+    }
+};
+```
+
+**浅拷贝的实现：**
+```javascript
+// target为obj或者array
+function shallowCopy (target) {
+    if(typeof target !== 'object') return new Error('argument must be object or array');
+
+    if(Array.isArray(target)){
+        var result = [];
+
+        for(var i = 0; i<target.length; i++){
+            result[i] = target[i];
+        }
+
+        return result;
+    }
+
+    var result = {};
+
+    for(var i in target){
+        if(target.hasOwnProperty(i)){
+            result[i] = target[i];
+        }
+    }
+
+    return result;
+}
+
+var b = shallowCopy(a);
+
+a.a === b.a; // true
+a.d === b.d; // true
+a.f === b.f; // true
+a.h === b.h; // true
+```
+这里浅拷贝知识拷贝了target的一层属性，这时候修改`a.h.aa = '123''`,b.h也会发生响应变化。
+
+深拷贝有个简单实现：
+```javascript
+    var b = JSON.parse(JSON.stringify(a));
+```
+这样有个问题，a中无法被stringify的属性无法被拷贝。
+
+**深拷贝实现：**
+```javascript
+function deepCopy (target) {
+    if(typeof target !== 'object') return new Error('argument must be object or array');
+
+    if(Array.isArray(target)){
+        var result = [];
+
+        for(var i = 0; i<target.length; i++){
+            if(typeof target[i] === 'function'){
+                result[i] = new Function('return ' + target[i].toString())();
+            } else if (typeof target[i] === 'object') {
+                result[i] = deepCopy(target[i]);
+            } else {
+                result[i] = target[i];
+            }
+        }
+
+        return result;
+    }
+
+    var result = {};
+
+    for(var i in target){
+        if(target.hasOwnProperty(i)){
+            if(typeof target[i] === 'function'){
+                result[i] = new Function('return ' + target[i].toString())();
+            } else if (typeof target[i] === 'object') {
+                result[i] = deepCopy(target[i]);
+            } else {
+                result[i] = target[i];
+            }
+        } else {
+            result[i] = target[i];
+        }
+    }
+
+    return result;
+}
+
+var b = deepCopy(a);
+
+a.a === b.a; // true
+a.d === b.d; // true
+a.f === b.f; // true
+a.h === b.h; // false
+a.h.bb === b.h.bb; // false
+```
+这里做了兼容，deepCopy接收数组或者对象，并且对function也进行拷贝。
