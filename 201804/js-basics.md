@@ -1,6 +1,8 @@
 # 一些面试过程中遇到过的基础题目
 1. 继承 (AL)
 2. 深拷贝（JD）
+3. 函数与变量提升（AL）
+4. 闭包的理解（AL）
 
 ## 1.继承
 JS继承的概念：子类获取到父类所有的属性与方法，并且子类可以扩展和增强。
@@ -27,7 +29,7 @@ Parent.prototype = {
 };
 ```
 
-**方法一：原型链**
+**方法一：原型链**<br>
 ```javascript
 // 方法一：原型链继承
 function Child () {}
@@ -42,7 +44,7 @@ console.log(childIns.getName()); // asd 继承了Prent原型上的属性与方�
 这种方法把Parent的实例当做Child原型，这样直接在Child的构造器上写一些增强型的属性即可。
 缺点很明显：创建子类实例时候，没法向父类传参数。
 
-**方法二：构造器继承**
+**方法二：构造器继承**<br>
 ```javascript
 // 直接利用call方法，将Child的构造器指向Parent
 function Child () {
@@ -56,7 +58,7 @@ console.log(childIns.getName); // undefined 这种方法原型链上的方法则
 这样完全把父类构造器中的属性与方法继承。
 缺点完全没用到原型，Parent原型链上的方法全部丢失。
 
-**方法三：组合继承**
+**方法三：组合继承**<br>
 ```javascript
 function Child () {
     Parent.call(this);
@@ -69,7 +71,7 @@ console.log(childIns.getName()); // 'asd'
 ```
 通过上面两种方法组合，结合各自的优缺点互补解决问题，最常见的继承方法。
 
-**方法四：原型式**
+**方法四：原型式**<br>
 ```javascript
 function beget(obj) {
     function Child () {}
@@ -85,7 +87,7 @@ console.log(childIns.getName()); // 'asd'
 跟第一种方法有点像，就是那父类实例当原型，好处在于封装了一层，直接获取子类实例。
 不过感觉用起来还是怪怪的。。。
 
-**方法五：寄生式**
+**方法五：寄生式**<br>
 ```javascript
 function beget(obj) {
     var clone = Object.create(obj);
@@ -103,7 +105,7 @@ console.log(childIns.getName()); // 'asd'
 跟第一种方法类似。
 
 
-**方法六：组合寄生**
+**方法六：组合寄生**<br>
 ```javascript
 function beget(obj) {
     var clone = Object.create(obj);
@@ -125,7 +127,7 @@ Child.prototype = proto;
 
 补充：[Object.create](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
 
-**ES6**
+**ES6**<br>
 ```javascript
 class Human {
     constructor (name, gender) {
@@ -178,7 +180,7 @@ var a = {
 };
 ```
 
-**浅拷贝的实现：**
+**浅拷贝的实现：**<br>
 ```javascript
 // target为obj或者array
 function shallowCopy (target) {
@@ -220,7 +222,7 @@ a.h === b.h; // true
 ```
 这样有个问题，a中无法被stringify的属性无法被拷贝。
 
-**深拷贝实现：**
+**深拷贝实现：**<br>
 ```javascript
 function deepCopy (target) {
     if(typeof target !== 'object') return new Error('argument must be object or array');
@@ -269,3 +271,135 @@ a.h === b.h; // false
 a.h.bb === b.h.bb; // false
 ```
 这里做了兼容，deepCopy接收数组或者对象，并且对function也进行拷贝。
+
+## 3.函数与变量提升
+ES5中使用`var`关键字定义变量会有变量提升这件事，由此引出关于变量提升的问题。
+ES5中，作用域有两种：全局作用域，函数作用域。
+
+**变量提升**<br>
+这个比较常见了，当我们：
+```javascript
+    var a = 1;
+```
+的时候，实际上JS解析的时候是：
+```javascript
+    var a;
+
+    a = 1;
+```
+分成了两步，使用`var`定义的变量会被提升到其作用域的最上方。
+所以在变量赋值之前打印该变量结果是`undefined`。
+
+**函数提升**<br>
+JS中函数是一等公民，函数声明的优先级最高。
+引擎在解析的时候会把函数定义提升到当前作用于的顶部。
+
+```javascript
+    test(); // 'hello'
+    
+    function test() {
+      return 'hello';
+    }
+```
+
+实际上函数定义分成两类：函数声明式和函数字面量式。只有函数声明才存在函数提升。
+
+```javascript
+hoistFunction();
+
+function hoistFunction() {
+
+    foo(); // 2
+
+    var foo = function() {
+        console.log(1);
+    };
+
+    foo(); // 1
+
+    function foo() {
+        console.log(2);
+    }
+
+    foo(); // 1
+}
+```
+上面函数在编译的时候，顺序调整为：
+```javascript
+function hoistFunction() {
+    var foo;
+    
+    foo = function foo() {
+        console.log(2);
+    };
+    
+    foo(); // 2
+    
+    foo = function() { // 覆盖
+        console.log(1);
+    };
+    
+    foo(); // 1
+    
+    foo(); // 1
+}
+
+hoistFunction();
+```
+**作用域限制**<br>
+JS中的就近原则，同名变量当前作用域里的优先于次作用域里的；并且外面的无法访问到里面的。
+```javascript
+var foo = 3;
+
+function hoistVariable() {
+
+    var foo = foo || 5;
+
+    console.log(foo); // 5
+}
+
+hoistVariable();
+console.log(foo); // 3
+```
+上述代码解析之后：
+```javascript
+var hoistVariable;
+var foo;
+
+hoistVariable = function hoistVariable() {
+    var foo;
+   
+    foo = foo || 5;
+                
+    console.log(foo); // 5
+}
+
+foo = 3;
+
+hoistVariable();
+console.log(foo); // 3
+```
+虽然外层作用域有个foo变量，但函数内是不会去引用的。
+
+**练习题**<br>
+1
+```javascript
+console.log(f1()); // 'aa';
+console.log(f2);   // undefined
+function f1() {console.log('aa')}
+var f2 = function() {}
+```
+2
+```javascript
+    alert(a); // function a() {}
+   function a() {}
+```
+
+```javascript
+   alert(a); // undefined
+    var a = function() {}
+```
+
+参考：[JavaScript系列文章：变量提升和函数提升](http://www.cnblogs.com/liuhe688/p/5891273.html)
+
+
