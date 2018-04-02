@@ -3,6 +3,7 @@
 2. 深拷贝
 3. 函数与变量提升
 4. 闭包的理解
+5. 数组常见操作
 
 ## 1.继承
 JS继承的概念：子类获取到父类所有的属性与方法，并且子类可以扩展和增强。
@@ -452,3 +453,27 @@ data[0](); // 0
 data[1](); // 1
 data[2](); // 2
 ```
+
+## 5.数组常见操作
+| 方法        | 解释                   | 示例                               | 返回值               | 是否改变原数组 | 参数列表                 |
+| ----------- | ---------------------- | ---------------------------------- | -------------------- | -------------- | ------------------------ |
+| push        | 向数组最后添加元素     | arr.push(1)                        | arr.length           | 是             | 一个或数组               |
+| pop         | 取出数组最后的元素     | arr.pop()                          | 最后一个元素         | 是             |                          |
+| shift       | 弹出数组第一个元素     | arr.shift()                        | 第一个元素           | 是             |                          |
+| unshift     | 数组第一个位置添加元素 | arr.unshift(1)                     | arr.length           | 是             | 一个或数组               |
+| concat      | 合并数组               | arr.concat(arr1)                   | new arr              | 否             |                          |
+| slice       | 数组截取               | arr.slice(start,[end])             | 被截取数组           | 否             | start,[end]              |
+| splice      | 数组的插入             | arr.splice(start, length, replace) | 被替换数组           | 是             | start, length, [replace] |
+| join        | 连接数组               | arr.join(',')                      | 连接后的字符串       | 否             |                          |
+| filter      | 过滤器                 | arr.filter(callback[, thisArg])    | 满足过滤条件的新数组 | 否             | item,i,arr               |
+| map         |                        |                                    |                      |                |                          |
+| forEach     |                        |                                    |                      |                |                          |
+| every       |                        |                                    |                      |                |                          |
+| some        |                        |                                    |                      |                |                          |
+| indexOf     |                        |                                    |                      |                |                          |
+| lastIndexOf |                        |                                    |                      |                |                          |
+| reduce      |                        |                                    |                      |                |                          |
+| sort        | 排序                   | arr.sort(func)                     | 满足排序条件的数组   | 是             |                          |
+| reverse()   | 反序                   | arr.reverse()                      | 满足排序条件的数组   | 是             |                          |
+|             |                        |                                    |                      |                |                          |
+
