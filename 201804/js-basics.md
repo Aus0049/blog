@@ -455,25 +455,23 @@ data[2](); // 2
 ```
 
 ## 5.数组常见操作
-| 方法        | 解释                   | 示例                               | 返回值               | 是否改变原数组 | 参数列表                 |
-| ----------- | ---------------------- | ---------------------------------- | -------------------- | -------------- | ------------------------ |
-| push        | 向数组最后添加元素     | arr.push(1)                        | arr.length           | 是             | 一个或数组               |
-| pop         | 取出数组最后的元素     | arr.pop()                          | 最后一个元素         | 是             |                          |
-| shift       | 弹出数组第一个元素     | arr.shift()                        | 第一个元素           | 是             |                          |
-| unshift     | 数组第一个位置添加元素 | arr.unshift(1)                     | arr.length           | 是             | 一个或数组               |
-| concat      | 合并数组               | arr.concat(arr1)                   | new arr              | 否             |                          |
-| slice       | 数组截取               | arr.slice(start,[end])             | 被截取数组           | 否             | start,[end]              |
-| splice      | 数组的插入             | arr.splice(start, length, replace) | 被替换数组           | 是             | start, length, [replace] |
-| join        | 连接数组               | arr.join(',')                      | 连接后的字符串       | 否             |                          |
-| filter      | 过滤器                 | arr.filter(callback[, thisArg])    | 满足过滤条件的新数组 | 否             | item,i,arr               |
-| map         |                        |                                    |                      |                |                          |
-| forEach     |                        |                                    |                      |                |                          |
-| every       |                        |                                    |                      |                |                          |
-| some        |                        |                                    |                      |                |                          |
-| indexOf     |                        |                                    |                      |                |                          |
-| lastIndexOf |                        |                                    |                      |                |                          |
-| reduce      |                        |                                    |                      |                |                          |
-| sort        | 排序                   | arr.sort(func)                     | 满足排序条件的数组   | 是             |                          |
-| reverse()   | 反序                   | arr.reverse()                      | 满足排序条件的数组   | 是             |                          |
-|             |                        |                                    |                      |                |                          |
-
+| 方法        | 解释                                                         | 示例                                | 返回值               | 是否改变原数组 | 参数列表                                  |
+| ----------- | ------------------------------------------------------------ | ----------------------------------- | -------------------- | -------------- | ----------------------------------------- |
+| push        | 向数组最后添加元素                                           | arr.push(1)                         | arr.length           | 是             | 一个或数组                                |
+| pop         | 取出数组最后的元素                                           | arr.pop()                           | 最后一个元素         | 是             |                                           |
+| shift       | 弹出数组第一个元素                                           | arr.shift()                         | 第一个元素           | 是             |                                           |
+| unshift     | 数组第一个位置添加元素                                       | arr.unshift(1)                      | arr.length           | 是             | 一个或数组                                |
+| concat      | 合并数组                                                     | arr.concat(arr1)                    | new arr              | 否             |                                           |
+| slice       | 数组截取                                                     | arr.slice(start,[end])              | 被截取数组           | 否             | start,[end]                               |
+| splice      | 数组的插入                                                   | arr.splice(start, length, replace)  | 被替换数组           | 是             | start, length, [replace]                  |
+| join        | 连接数组                                                     | arr.join(',')                       | 连接后的字符串       | 否             |                                           |
+| filter      | 过滤器                                                       | arr.filter(callback[, thisArg])     | 满足过滤条件的新数组 | 否             | item,i,arr                                |
+| map         | 方法返回一个由原数组中的每个元素调用一个指定方法后的返回值组成的新数组。 | array.map(callback[, thisArg])      | 新数组               | 否             | item,i,arr                                |
+| forEach     | 方法让数组的每一项都执行一次给定的函数。                     | array.forEach(callback[, thisArg])  | undefined            | 是             | item,i,arr                                |
+| every       | 方法测试数组的所有元素是否都通过了指定函数的测试。           | arr.every(callback[, thisArg])      | true/flase           | 否             | item,i,arr                                |
+| some        | 方法测试数组中的某些元素是否通过了指定函数的测试。           | arr.some(callback[, thisArg])       | true/flase           | 否             | item,i,arr                                |
+| indexOf     | 方法返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。 | arr.indeOf('str');                  | index                | 否             | searchElement， fromIndex                 |
+| lastIndexOf | 方法返回指定元素（也即有效的 JavaScript 值或变量）在数组中的最后一个的索引，如果不存在则返回 -1。从数组的后面向前查找，从 `fromIndex` 处开始。 | arr.lastIndeOf('str');              | index                | 否             | searchElement， fromIndex                 |
+| reduce      | 接收一个函数作为累加器（accumulator），数组中的每个值（从左到右）开始缩减，最终为一个值 | arr.reduce(callback,[initialValue]) | 函数累计处理的结果   | 否             | previousValue, currentValue, index, array |
+| sort        | 排序                                                         | arr.sort(func)                      | 满足排序条件的数组   | 是             |                                           |
+| reverse()   | 反序                                                         | arr.reverse()                       | 满足排序条件的数组   | 是             |                                           |
