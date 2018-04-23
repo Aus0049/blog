@@ -1,5 +1,5 @@
 # 数组常见方法整理
-### push
+## push
 
 > **push()**方法将一个或多个元素添加到数组的末尾，并返回新数组的长度。
 
@@ -19,7 +19,7 @@ arr.push(1,2,3,4); // 4
 console.log(arr); // [1,2,3,4]
 ```
 
-### pop
+## pop
 
 > **pop()**方法从数组中**删除**最后一个**元素**，并**返回**该元素的**值**。此方法**更改**数组的**长度**。
 
@@ -34,7 +34,7 @@ var arr = [1,2,3,4];
 arr.pop() // 4
 console.log(arr); // [1,2,3]
 ```
-### shift
+## shift
 
 > **shift()**方法从数组中**删除**第一个元素，并返回该元素的值。此方法更改数组的长度。
 
@@ -50,7 +50,7 @@ arr.shift() // 1
 console.log(arr); // [2,3,4]
 ```
 
-### unshift
+## unshift
 
 > **unshift()**方法将一个或多个元素添加到数组的开头，并返回新数组的长度。
 
@@ -69,7 +69,7 @@ var arr = [2,3,4];
 arr.unshift(0,1); // 5
 console.log(arr); // [0,1,2,3,4]
 ```
-### concat
+## concat
 
 > **concat()** 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
 
@@ -105,7 +105,7 @@ console.log(arr4); // [{a:1}, 1, {b: 2}]
 a.a = 2;
 console.log(arr4); // [{a:2}, 1, {b: 2}]
 ```
-### slice
+## slice
 
 > **slice()**方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
 
@@ -130,7 +130,7 @@ console.log(arr.slice(-4, -1)); // [3,4,5]
 
 利用该方法可以快速复制一个数组(arr.slice())。
 
-### splice
+## splice
 
 > **splice()** 方法通过删除现有元素和/或添加新元素来更改一个数组的内容。
 
@@ -162,7 +162,7 @@ var arr3 = [0,1,2,3];
 arr3.splice(2); // [2,3]
 console.log(arr3); // [0,1]
 ```
-### join
+## join
 
 > **join()** 方法将一个数组（或一个[类数组对象](https://developer.mozilla.org/zh-CN//docs/Web/JavaScript/Guide/Indexed_collections#Working_with_array-like_objects)）的所有元素连接成一个字符串并返回这个字符串。
 
@@ -182,7 +182,7 @@ arr.join(); // 'a,b,c'
 arr.join('&'); // 'a&b&c'
 arr.join(''); // 'abc'
 ```
-### indexOf&lastIndexOf
+## indexOf&lastIndexOf
 
 > **indexOf()**方法返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。
 
@@ -226,9 +226,9 @@ var res = arr1.filter(function(item, index, arr){
 }); // [3, 4]
 ```
 
-### find&findIndex
+## find&findIndex
 
-### join
+## join
 
 > **join()** 方法将一个数组（或一个[类数组对象](https://developer.mozilla.org/zh-CN//docs/Web/JavaScript/Guide/Indexed_collections#Working_with_array-like_objects)）的所有元素连接成一个字符串并返回这个字符串。
 
@@ -249,7 +249,7 @@ arr.join('&'); // 'a&b&c'
 arr.join(''); // 'abc'
 ```
 
-### filter
+## filter
 
 > **filter()**方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
 
@@ -294,7 +294,7 @@ Array.prototype.filter = function(callback, thisArg){
 };
 ```
 
-### map
+## map
 
 > **map()** 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。
 
@@ -323,7 +323,7 @@ Array.prototype.map.call(str, function(x) {
 // Bonus: use '===' to test if original string was a palindrome
 ```
 
-### forEach
+## forEach
 
 > **forEach()** 方法对数组的每个元素执行一次提供的函数。
 
@@ -361,7 +361,7 @@ words.forEach(function(word) {
 // four
 ```
 
-### every
+## every
 
 > **every()** 方法测试数组的所有元素是否都通过了指定函数的测试。
 
@@ -390,7 +390,7 @@ var res = arr.every(function(item){
 console.log(res); // false
 ```
 
-### some
+## some
 
 > **some()** 方法测试数组中的某些元素是否通过由提供的函数实现的测试
 
@@ -416,7 +416,7 @@ var res = arr.some(function(item){
 console.log(res); // true
 ```
 
-### reduce&reduceRight
+## reduce&reduceRight
 
 > **reduce()** 方法对累加器和数组中的每个元素（从左到右）应用一个函数，将其减少为单个值。
 
@@ -459,7 +459,7 @@ var result = arr.sort().reduce((init, current)=>{
 console.log(result); //[1,2,3,4,5]
 ```
 
-### sort&reverse
+## sort&reverse
 
 > **sort()** 方法用[就地（ in-place ）的算法](https://en.wikipedia.org/wiki/Sorting_algorithm#Stability)对数组的元素进行排序，并返回数组。 sort 排序不一定是[稳定的](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95#.E7.A9.A9.E5.AE.9A.E6.80.A7)。默认排序顺序是根据字符串Unicode码点。
 
@@ -492,5 +492,5 @@ arr2.sort(function(a, b){
 });
 ```
 
-### entries&values
+## entries&values
 
