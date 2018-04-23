@@ -536,14 +536,161 @@ arr.pop() // 4
 console.log(arr); // [1,2,3]
 ```
 
+### shift
+
+> **shift()**方法从数组中**删除**第一个元素，并返回该元素的值。此方法更改数组的长度。
+
+**返回值**
+
+1. 从数组中删除的元素(当数组为空时返回[`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined))。
+
+**示例**
+
+```javascript
+var arr = [1,2,3,4];
+arr.shift() // 1
+console.log(arr); // [2,3,4]
+```
+
+### unshift
+
+> **unshift()**方法将一个或多个元素添加到数组的开头，并返回新数组的长度。
+
+**参数**
+
+1. elementN：被添加到数组开头的元素。
+
+**返回值**
+
+1. 数组新的length。
+
+**示例**
+
+```javascript
+var arr = [2,3,4];
+arr.unshift(0,1); // 5
+console.log(arr); // [0,1,2,3,4]
+```
+
+### concat
+
+> **concat()** 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
+
+**参数**
+
+1. valueN：将数组和/或值连接成新数组。
+
+**返回值**
+
+1. 新的Array实例。
+
+**示例**
+
+```javascript
+// 简单示例
+var oddArray = [1,3,5];
+var evenArray = [0,2,4];
+var newArray = oddArray.concat(evenArray);
+console.log(newArray); // [1, 3, 5, 0, 2, 4]
+
+// 合并多个参数
+var arr1 = ['a', 'b'];
+var str1 = 'c';
+var arr2 = ['d', 'e'];
+console.log(arr1.concat(str1, arr2)); // ["a", "b", "c", "d", "e"]
+
+// 合并是简单的浅拷贝
+var a = {a: 1};
+var b = {b: 2};
+var arr3 = [a, 1];
+var arr4 = arr3.concat(b);
+console.log(arr4); // [{a:1}, 1, {b: 2}]
+a.a = 2;
+console.log(arr4); // [{a:2}, 1, {b: 2}]
+```
+
+### slice
+
+> **slice()**方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+
+**参数**
+
+1. [begin]：从该索引处开始提取原数组中的元素（从0开始）；负数表示倒数第几个；没有默认为0；
+2. [end]：在该索引处结束提取原数组元素；负数表示倒数第几个；没有默认是当前长度；
+
+**返回值**
+
+1. 一个含有提取元素的新数组。
+
+**示例**
+
+```javascript
+// 数组还是浅拷贝
+var arr = [0,1,2,3,4,5,6];
+console.log(arr.slice()); // [0,1,2,3,4,5,6]
+console.log(arr.slice(1, 3)); // [1,2]
+console.log(arr.slice(-4, -1)); // [3,4,5]
+```
+
+利用该方法可以快速复制一个数组(arr.slice())。
+
+### splice
+
+> **splice()** 方法通过删除现有元素和/或添加新元素来更改一个数组的内容。
+
+**参数**
+
+1. start：指定修改的开始位置（从0计数）；如果超出了数组的长度，则从数组末尾开始添加内容；如果是负值，则表示从数组末位开始的第几位（从-1计数）；
+2. [deleteCount]：整数，表示要移除的数组元素的个数。如果 `deleteCount` 是 0，则不移除元素。这种情况下，至少应添加一个新元素。如果 `deleteCount `大于`start` 之后的元素的总数，则从 `start` 后面的元素都将被删除（含第 `start` 位）。
+3. itemN：要添加进数组的元素,从`start` 位置开始。如果不指定，则 `splice() `将只删除数组元素。
+
+**返回值**
+
+1. 由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删除元素，则返回空数组。
+
+**示例**
+
+```javascript
+// 插入新元素
+var arr1 = [0,1,2,3];
+arr1.splice(2, 0, 'item'); // []
+console.log(arr1); // [0,1,'item',2,3]
+
+// 删除元素
+var arr2 = [0,1,2,3];
+arr2.splice(1,2); // [1,2]
+console.log(arr2); // [0,3]
+
+// 截取数组前半段
+var arr3 = [0,1,2,3];
+arr3.splice(2); // [2,3]
+console.log(arr3); // [0,1]
+```
+
+### join
+
+### filter
+
+### map
+
+### forEach
+
+### every
+
+### some
+
+
+
+
+
 
 
 | 方法        | 解释                                                         | 示例                                | 返回值               | 是否改变原数组 | 参数列表                                  |
 | ----------- | ------------------------------------------------------------ | ----------------------------------- | -------------------- | -------------- | ----------------------------------------- |
 | push        | 将一个或多个元素添加到数组的末尾                             | arr.push(1,2,3)                     | arr.length           | 是             | elementN：被添加到数组末尾的元素。        |
-| pop         | 从数组中**删除**最后一个元素                                 | arr.pop()                           | 最后一个元素         | 是             |                                           |
-| shift       | 弹出数组第一个元素                                           | arr.shift()                         | 第一个元素           | 是             |                                           |
-| unshift     | 数组第一个位置添加元素                                       | arr.unshift(1)                      | arr.length           | 是             | 一个或数组                                |
+| pop         | 从数组中删除最后一个元素                                     | arr.pop()                           | 最后一个元素         | 是             |                                           |
+| shift       | 从数组中删除第一个元素                                       | arr.shift()                         | 第一个元素           | 是             |                                           |
+| unshift     | 将一个或多个元素添加到数组的开头                             | arr.unshift(1)                      | arr.length           | 是             | 一个或数组                                |
 | concat      | 合并数组                                                     | arr.concat(arr1)                    | new arr              | 否             |                                           |
 | slice       | 数组截取                                                     | arr.slice(start,[end])              | 被截取数组           | 否             | start,[end]                               |
 | splice      | 数组的插入                                                   | arr.splice(start, length, replace)  | 被替换数组           | 是             | start, length, [replace]                  |
