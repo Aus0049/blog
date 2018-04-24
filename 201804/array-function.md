@@ -182,6 +182,28 @@ arr.join(); // 'a,b,c'
 arr.join('&'); // 'a&b&c'
 arr.join(''); // 'abc'
 ```
+
+### includes
+> includes() 方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回false。
+
+**参数**
+
+1. searchElement：需要查找的元素值。
+2. [fromIndex]：从该索引处开始查找 searchElement。如果为负值，则按升序从 array.length + fromIndex 的索引开始搜索。默认为 0。
+
+**返回值**
+
+1. Boolean。
+
+**示例**
+```javascript
+[1, 2, 3].includes(2);     // true
+[1, 2, 3].includes(4);     // false
+[1, 2, 3].includes(3, 3);  // false
+[1, 2, 3].includes(3, -1); // true
+[1, 2, NaN].includes(NaN); // true
+```
+
 ## indexOf&lastIndexOf
 
 > **indexOf()**方法返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。
@@ -226,8 +248,6 @@ var res = arr1.filter(function(item, index, arr){
 }); // [3, 4]
 ```
 
-## find&findIndex
-
 ## join
 
 > **join()** 方法将一个数组（或一个[类数组对象](https://developer.mozilla.org/zh-CN//docs/Web/JavaScript/Guide/Indexed_collections#Working_with_array-like_objects)）的所有元素连接成一个字符串并返回这个字符串。
@@ -247,6 +267,34 @@ var arr = ['a', 'b', 'c'];
 arr.join(); // 'a,b,c'
 arr.join('&'); // 'a&b&c'
 arr.join(''); // 'abc'
+```
+
+## find&findIndex
+> find() 方法返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined。
+
+**参数**
+
+1. callback：在数组每一项上执行的函数，接收 3 个参数：1. element 当前遍历到的元素; 2. index 当前遍历到的索引；3. array 数组本身。
+2. [thisArg]：指定 callback 的 this 参数。
+
+**返回值**
+
+1. 当某个元素通过 callback 的测试时，返回数组中的一个值，否则返回 undefined。
+
+**示例**
+
+```javascript
+var inventory = [
+    {name: 'apples', quantity: 2},
+    {name: 'bananas', quantity: 0},
+    {name: 'cherries', quantity: 5}
+];
+
+function findCherries(fruit) { 
+    return fruit.name === 'cherries';
+}
+
+console.log(inventory.find(findCherries)); // { name: 'cherries', quantity: 5 }
 ```
 
 ## filter
@@ -334,7 +382,7 @@ Array.prototype.map.call(str, function(x) {
 
 **返回值**
 
-1. 一个新数组，每个元素都是回调函数的结果。
+1. undefined。
 
 **示例**
 
@@ -491,6 +539,29 @@ arr2.sort(function(a, b){
     return Math.random() - .5;
 });
 ```
+## 数组方法整理
 
-## entries&values
+| 方法         | 解释                                                         | 示例                                                   | 返回值                                 | 是否改变原数组 | 参数列表                    |
+| ------------ | ------------------------------------------------------------ | ------------------------------------------------------ | -------------------------------------- | -------------- | --------------------------- |
+| push         | 将一个或多个元素添加到数组的末尾                             | arr.push(1,2,3)                                        | arr.length                             | 是             | elementN                    |
+| pop          | 从数组中删除最后一个元素                                     | arr.pop()                                              | 被删除的元素                           | 是             |                             |
+| shift        | 从数组中删除第一个元素                                       | arr.shift()                                            | 被删除的元素                           | 是             |                             |
+| unshift      | 将一个或多个元素添加到数组的开头                             | arr.unshift()                                          | arr.length                             | 是             | elementN                    |
+| concat       | 合并两个或多个数组                                           | arr.concat(arr1, arr2, item)                           | 合并后的新数组                         | 否             | valueN                      |
+| slice        | 从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象 | arr.slice(0, 1)                                        | 新浅拷贝的数组                         | 否             | [begin]/[end]               |
+| splice       | 删除现有元素和/或添加新元素来更改一个数组的内容              | arr.splice(1,0,'1')                                    | 被删除的元素组成的数组                 | 是             | start/[ deleteCount]/ itemN |
+| join         | 将一个数组的所有元素连接成一个字符串并返回这个字符串         | arr.join('')                                           | 一个所有数组元素连接的字符串           | 否             | separator                   |
+| indexOf      | 在数组中可以找到一个给定元素的第一个索引                     | arr.indexOf(‘item’)                                    | 元素在数组中的索引                     | 否             | searchElement/ [fromIndex]  |
+| lastIndexOf  | 指定元素在数组中的最后一个的索引                             | arr.lastIndexOf('item')                                | 元素在数组中的索引                     | 否             | searchElement/ [fromIndex]  |
+| find         | 数组中满足提供的测试函数的第一个元素的值                     | arr.find(function(item){return item>10})               | 第一个满足测试函数的值                 | 否             | callback/[thisArg]          |
+| findIndex    | 数组中满足提供的测试函数的第一个元素的索引                   | arr.findIndex(function(item){return item>10})          | 第一个满足测试函数的索引               | 否             | callback/[thisArg]          |
+| filter       | 创建一个新数组, 其包含通过所提供函数实现的测试的所有元素     | arr.filter(function(item){return item>10});            | 所有通过测试函数的值组成的数组         | 否             | callback/[thisArg]          |
+| map          | 创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果 | arr.map(function(x){return x*x});                      | 一个新数组，每个元素都是回调函数的结果 | 否             | callback/[thisArg]          |
+| forEach      | 对数组的每个元素执行一次提供的函数                           | arr.forEach(function(x){return x*x});                  | undefined                              | 否             | callback/[thisArg]          |
+| every        | 测试数组的所有元素是否都通过了指定函数的测试                 | arr.every(function(item){return item>10});             | boolean                                | 否             | callback/[thisArg]          |
+| some         | 测试数组的 某些元素是否都通过了指定函数的测试                | arr.some(function(item){return item>10});              | boolean                                | 否             | callback/[thisArg]          |
+| reduce       | 累加器和数组中的每个元素（从左到右）应用一个函数，将其减少为单个值 | arr.reduce(function(pre,cur){return pre+cur}, 0);      | 累加的值                               | 否             | callback/ initialValue      |
+| reducerRight | 累加器和数组中的每个元素（从右到左）应用一个函数，将其减少为单个值 | arr.reduceRight(function(pre,cur){return pre+cur}, 0); | 累加的值                               | 否             | callback/ initialValue      |
+| sort         | 数组排序。。。                                               | arr.sort();                                            | 返回排序后的数组                       | 是             | compareFunction             |
+| reverse      | 数组中元素的位置颠倒                                         | arr.reverse();                                         | 颠倒后的数组                           | 是             | compareFunction             |
 
