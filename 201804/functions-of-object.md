@@ -925,3 +925,146 @@ console.log(Object.values(my_obj)); // ['bar']
 // 参数是非对象会转变成对象
 console.log(Object.values("foo")); // ['f', 'o', 'o']
 ```
+
+## Object.prototype.hasOwnProperty
+
+> **hasOwnProperty()** 方法会返回一个布尔值，指示对象**自身**属性中是否具有指定的属性
+
+**参数**
+
+1. prop：要检测的属性  [`字符串`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/String) 名称或者 [`Symbol`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol)。
+
+**返回值**
+
+1. 用来判断某个对象是否含有指定的属性的 [`Boolean`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Boolean) 。
+
+**实例**
+
+```javascript
+o = new Object();
+o.prop = 'exists';
+
+function changeO() {
+  o.newprop = o.prop;
+  delete o.prop;
+}
+
+o.hasOwnProperty('prop');   // 返回 true
+changeO();
+o.hasOwnProperty('prop');   // 返回 false
+
+o = new Object();
+o.prop = 'exists';
+o.hasOwnProperty('prop');             // 返回 true
+o.hasOwnProperty('toString');         // 返回 false
+o.hasOwnProperty('hasOwnProperty');   // 返回 false
+
+var buz = {
+    fog: 'stack'
+};
+
+for (var name in buz) {
+    if (buz.hasOwnProperty(name)) {
+        alert("this is fog (" + name + ") for sure. Value: " + buz[name]);
+    }
+    else {
+        alert(name); // toString or something else
+    }
+}
+```
+
+## Object.prototype.isPrototypeOf
+
+> **isPrototypeOf()** 方法用于测试一个对象是否存在于另一个对象的原型链上。
+
+**参数**
+
+1. obj：在该对象的原型链上搜寻。
+
+**返回值**
+
+1. boolean 表示调用对象是否在另一个对象的原型链上。
+
+**实例**
+
+```javascript
+function Foo() {}
+function Bar() {}
+function Baz() {}
+
+Bar.prototype = Object.create(Foo.prototype);
+Baz.prototype = Object.create(Bar.prototype);
+
+var baz = new Baz();
+
+console.log(Baz.prototype.isPrototypeOf(baz)); // true
+console.log(Bar.prototype.isPrototypeOf(baz)); // true
+console.log(Foo.prototype.isPrototypeOf(baz)); // true
+console.log(Object.prototype.isPrototypeOf(baz)); // true
+```
+
+## Object.prototype.propertyIsEnumerable
+
+> **propertyIsEnumerable()** 方法返回一个布尔值，表示指定的属性是否可枚举。
+
+**参数**
+
+1. prop：需要测试的属性名。
+
+**返回值**
+
+1. 用来表示指定的属性名是否可枚举的Boolean。
+
+**实例**
+
+```javascript
+var o = {};
+var a = [];
+o.prop = 'is enumerable';
+a[0] = 'is enumerable';
+
+o.propertyIsEnumerable('prop');   //  返回 true
+a.propertyIsEnumerable(0);        // 返回 true
+
+var a = ['is enumerable'];
+
+a.propertyIsEnumerable(0);          // 返回 true
+a.propertyIsEnumerable('length');   // 返回 false
+
+Math.propertyIsEnumerable('random');   // 返回 false
+this.propertyIsEnumerable('Math');     // 返回 false
+
+var a = [];
+a.propertyIsEnumerable('constructor');         // 返回 false
+
+function firstConstructor() {
+  this.property = 'is not enumerable';
+}
+
+firstConstructor.prototype.firstMethod = function() {};
+
+function secondConstructor() {
+  this.method = function method() { return 'is enumerable'; };
+}
+
+secondConstructor.prototype = new firstConstructor;
+secondConstructor.prototype.constructor = secondConstructor;
+
+var o = new secondConstructor();
+o.arbitraryProperty = 'is enumerable';
+
+o.propertyIsEnumerable('arbitraryProperty');   // 返回 true
+o.propertyIsEnumerable('method');              // 返回 true
+o.propertyIsEnumerable('property');            // 返回 false
+
+o.property = 'is enumerable';
+
+o.propertyIsEnumerable('property');            // 返回 true
+
+// 这些返回fasle，是因为，在原型链上propertyIsEnumerable不被考虑
+// (尽管最后两个在for-in循环中可以被循环出来)。
+o.propertyIsEnumerable('prototype');   // 返回 false (根据 JS 1.8.1/FF3.6)
+o.propertyIsEnumerable('constructor'); // 返回 false
+o.propertyIsEnumerable('firstMethod'); // 返回 false
+```
+
