@@ -155,6 +155,24 @@ function tryExtensions(p, exts) {
 }
 
 /**
+ * 根据文件路径名 尝试不同扩展名解析文件
+ * @param filename 文件路径
+ */
+Module.prototype.load = function(filename) {
+
+    assert(!this.loaded);
+    this.filename = filename;
+    this.paths = Module._nodeModulePaths(path.dirname(filename));
+
+    var extension = path.extname(filename) || '.js';
+    if (!Module._extensions[extension]) extension = '.js';
+    Module._extensions[extension](this, filename);
+
+    // 文件解析完毕
+    this.loaded = true;
+};
+
+/**
  * 暴露的require方法
  * @param path 文件的相对路径或者是自带模块的名字
  */
@@ -395,3 +413,40 @@ Module._resolveLookupPaths = function(request, parent) {
 
     return [id, [path.dirname(parent.filename)]];
 };
+
+/**
+ * 剥离 utf8 编码特有的BOM文件头
+ * @param content
+ * @returns content 处理后的
+ */
+function stripBOM(content) {
+    // Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
+    // because the buffer-to-string conversion in `fs.readFileSync()`
+    // translates it to FEFF, the UTF-16 BOM.
+    if (content.charCodeAt(0) === 0xFEFF) {
+        content = content.slice(1);
+    }
+    return content;
+}
+
+// Native extension for .js
+Module._extensions['.js'] = function(module, filename) {
+    var content = fs.readFileSync(filename, 'utf8');
+    module._compile(stripBOM(content), filename);
+};
+
+
+// Native extension for .json
+Module._extensions['.json'] = function(module, filename) {
+    var content = fs.readFileSync(filename, 'utf8');
+    try {
+        module.exports = JSON.parse(stripBOM(content));
+    } catch (err) {
+        err.message = filename + ': ' + err.message;
+        throw err;
+    }
+};
+
+
+//Native extension for .node
+Module._extensions['.node'] = process.dlopen;
