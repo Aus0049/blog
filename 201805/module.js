@@ -17,48 +17,49 @@
  *
  */
 
-// var NativeModule = require('native_module');
-// var util = require('util');
-// var runInThisContext = require('vm').runInThisContext;
-// var runInNewContext = require('vm').runInNewContext;
-// var assert = require('assert').ok;
-// var fs = require('fs');
-//
-// // If obj.hasOwnProperty has been overridden, then calling
-// // obj.hasOwnProperty(prop) will break.
-// // See: https://github.com/joyent/node/issues/1707
-// function hasOwnProperty(obj, prop) {
-//     return Object.prototype.hasOwnProperty.call(obj, prop);
-// }
-//
-// // 大写的Module实际上是module的工厂
-// function Module(id, parent) {
-//     this.id = id; // 文件验重的表示，字符串形式的绝对路径
-//     this.exports = {};
-//     this.parent = parent;
-//     if (parent && parent.children) {
-//         parent.children.push(this);
-//     }
-//
-//     this.filename = null;
-//     this.loaded = false;
-//     this.children = [];
-// }
-//
-// module.exports = Module;
-//
-// // 初始化一些变量
-// Module._contextLoad = (+process.env['NODE_MODULE_CONTEXTS'] > 0);
-// Module._cache = {};
-// Module._pathCache = {};
-// Module._extensions = {};
-// var modulePaths = [];
-// Module.globalPaths = [];
-//
-// Module.wrapper = NativeModule.wrapper;
-// Module.wrap = NativeModule.wrap;
-//
-// var path = require('path');
+// 原生的模块
+var NativeModule = require('native_module');
+var util = require('util');
+// vm沙箱
+var runInThisContext = require('vm').runInThisContext;
+var runInNewContext = require('vm').runInNewContext;
+var assert = require('assert').ok;
+
+var fs = require('fs');
+
+function hasOwnProperty(obj, prop) {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+// 大写的Module实际上是module的工厂
+function Module(id, parent) {
+    this.id = id; // 文件验重的表示，字符串形式的绝对路径
+    this.exports = {};
+    this.parent = parent;
+    if (parent && parent.children) {
+        parent.children.push(this);
+    }
+
+    this.filename = null;
+    this.loaded = false;
+    this.children = [];
+}
+
+module.exports = Module;
+
+// 初始化一些变量
+Module._contextLoad = (+process.env['NODE_MODULE_CONTEXTS'] > 0);
+Module._cache = {};
+Module._pathCache = {};
+Module._extensions = {};
+var modulePaths = [];
+Module.globalPaths = [];
+
+Module.wrapper = NativeModule.wrapper;
+Module.wrap = NativeModule.wrap;
+
+var path = require('path');
+
 //
 // /**
 //  * 判断路径是否是文件
