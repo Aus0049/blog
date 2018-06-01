@@ -5,15 +5,15 @@
  *
  * 思路：
  *
- * 1. 找文件
- * require接一个路径 路径是相对路径 和 自带的模块或者package.json自带模块
- * 文件模糊匹配和路径模糊匹配
- *
- * 2. 编译
- * 找到文件之后，执行该文件
- *
- * 3. 缓存
- * 将文件和执行结果缓存，再次找到直接返回缓存结果
+ * 1. 在commonjs规范中每个模块都是一个Module实例。
+ * 2. require方法调用__load方法加载模块文件
+ *    1. _resolveFilename解析文件的绝对路径
+ *        1. _resolveLookupPaths解析文件肯能的绝对路径
+ *        2. _findPath匹配尝试找到文件绝对路径
+ *    2. load解析文件
+ *        1. Module._extensions[extension]不同后缀尝试加载
+ *            1. _compile沙箱编译
+ * 3. require的返回值是module.exports || {};
  *
  */
 
