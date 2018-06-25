@@ -156,4 +156,85 @@ linkedList.get(0); // 1
 
 linkedList.get(2); // -1
 
+/**
+ * Given a linked list, determine if it has a cycle in it.
+ */
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var hasCycle = function(head) {
+    if(!head) return false;
+
+    var slow = head, fast = slow;
+
+    while (slow.next && fast.next && fast.next.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if(fast === slow) return true;
+    }
+
+    return false;
+};
+
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var detectCycle = function(head) {
+    if (!head || !head.next) return null;
+
+    var slow = head;
+    var fast = head.next;
+
+    while (slow !== fast) {
+        slow = slow.next;
+        if (!fast.next || !fast.next.next) return null;
+        fast = fast.next.next;
+    }
+
+    // Key step: once we move fast to head, we need to update slow to slow.next.
+    // This is because we are using the next tick as the starting point.
+    fast = head;
+    slow = slow.next;
+
+    while (slow !== fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+
+    return fast;
+};
+
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function(headA, headB) {
+    var currA = headA;
+    var currB = headB;
+
+    while (currA) {
+        currA.visited = true;
+        currA = currA.next;
+    }
+
+    while (currB) {
+        if (currB.visited) { return currB; }
+        currB = currB.next;
+    }
+
+    return null;
+};
 
