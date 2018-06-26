@@ -238,3 +238,28 @@ var getIntersectionNode = function(headA, headB) {
     return null;
 };
 
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    var prior = null;
+    var cur = null;
+    var next = head;
+
+    while (next) {
+        cur = next;
+        next = next.next;
+        cur.next = prior;
+        prior = cur;
+    }
+
+    return prior;
+};
