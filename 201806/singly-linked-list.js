@@ -239,13 +239,6 @@ var getIntersectionNode = function(headA, headB) {
 };
 
 /**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
  * @param {ListNode} head
  * @return {ListNode}
  */
@@ -263,3 +256,54 @@ var reverseList = function(head) {
 
     return prior;
 };
+
+/**
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
+var removeElements = function(head, val) {
+    while (head && head.val === val){
+        head = head.next;
+    }
+
+    if(!head) return null;
+
+    var prior = head;
+    var cur = prior.next;
+
+    while (cur) {
+        if(cur.val === val){
+            prior.next = cur.next;
+        } else {
+            prior = cur;
+        }
+        cur = cur.next;
+    }
+
+    return head;
+};
+
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var oddEvenList = function(head) {
+    if(!head) return null;
+
+    var odd = head;
+    var evenHead = head.next;
+    var even = evenHead;
+
+    while (odd && even && even.next) {
+        odd.next = even.next;
+        odd = odd.next;
+        even.next = odd.next;
+        even = even.next;
+    }
+
+    odd.next = evenHead;
+
+    return head;
+};
+
