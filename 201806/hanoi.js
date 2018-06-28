@@ -11,3 +11,5 @@ function hanoi (disc, a, b, c) {
 }
 
 hanoi(3, 'a', 'b', 'c');
+
+// 移动步数 2^n -1
