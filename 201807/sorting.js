@@ -5,23 +5,17 @@
  * 1. 插入排序
  * 时间复杂度O（n^2）
  * */
-function straightInsertionSort (arr) {
-    var result = [];
-
-    for(var i = 0; i < arr.length; i++){
-        var target = arr[i];
-        var index = 0;
-
-        for(var j = 0; j < result.length; j++){
-            if(target > result[j]) {
-                index++;
-            }
+function straightInsertionSort (array) {
+    for (var i = 1; i < array.length; i++) {
+        var key = array[i];
+        var j = i - 1;
+        while (j >= 0 && array[j] > key) {
+            array[j + 1] = array[j];
+            j--;
         }
-
-        result.splice(index, 0, target);
+        array[j + 1] = key;
     }
-
-    return result;
+    return array;
 }
 
 straightInsertionSort([4,21,3,21,24,12,56,2,11,33]);
@@ -167,7 +161,7 @@ function heapify(arr, x, len) {
 heapSort([4,21,3,21,24,12,56,2,11,33]);
 
 /**
- * 6. 堆排序
+ * 7. 归并排序
  * 时间复杂度O（nlogn）
  * */
 
@@ -194,7 +188,7 @@ function merge(left, right){
 mergeSort([4,21,3,21,24,12,56,2,11,33]);
 
 /**
- * 7. 基数排序
+ * 8. 基数排序
  * 时间复杂度O（n*k）
  * */
 function radixSort(array) {
