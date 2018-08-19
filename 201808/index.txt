@@ -15,11 +15,17 @@
   <p>escape：{{common.escape}}</p>
   <h2>不转义输出</h2>
   <p>unescape：{{&common.escape}}</p>
-  <h3>列表输出：</h3>
+  <h2>列表输出：</h2>
   <ul>
-  {{#list}}
+  {{#each list}}
     <li class="{{value}}">{{key}}</li>
-  {{/list}}
+  {{/each}}
   </ul>
+  <h2>条件输出：</h2>
+  {{#if shouldEscape}}
+    <p>escape{{common.escape}}</p>
+  {{else}}
+    <p>unescape：{{&common.escape}}</p>
+  {{/if}}
 </body>
 </html>

@@ -6,9 +6,18 @@ var tpl = fs.readFileSync('./index.txt', 'utf8');
 var state = require('./index');
 var Panda = require('./panda');
 
+var isDev = false;
+// var isDev = true;
+
+if(isDev){
+    Panda.render(tpl, state);
+    return;
+}
+
 console.log(Panda.render(tpl, state));
 /*
-* <!DOCTYPE html>
+*
+ <!DOCTYPE html>
  <html>
  <head>
  <meta charset="utf-8" />
@@ -25,7 +34,7 @@ console.log(Panda.render(tpl, state));
  <p>escape：&lt;p&gt;Aus&lt;&#x2F;p&gt;</p>
  <h2>不转义输出</h2>
  <p>unescape：<p>Aus</p></p>
- <h3>列表输出：</h3>
+ <h2>列表输出：</h2>
  <ul>
 
  <li class="1">a</li>
@@ -37,6 +46,10 @@ console.log(Panda.render(tpl, state));
  <li class="4">d</li>
 
  </ul>
+ <h2>条件输出：</h2>
+
+ <p>escape&lt;p&gt;Aus&lt;&#x2F;p&gt;</p>
+
  </body>
  </html>
 
